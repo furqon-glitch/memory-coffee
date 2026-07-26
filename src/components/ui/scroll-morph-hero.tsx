@@ -280,17 +280,6 @@ export default function IntroAnimation() {
       data-lenis-prevent="true"
       className="relative w-full h-full bg-[#0E0E0E] overflow-hidden"
     >
-      {/* Storefront background photo — sits behind the photo circle & text */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/hero-background.jpg"
-          alt="Storefront Memory Coffee"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-[#0E0E0E] sm:h-1/2" />
-      </div>
-
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
         {/* Intro Text (Fades out) */}
         <div className="absolute z-20 flex max-w-[240px] flex-col items-center justify-center px-4 text-center pointer-events-none top-1/2 -translate-y-1/2 md:z-0 md:max-w-none md:px-0">
