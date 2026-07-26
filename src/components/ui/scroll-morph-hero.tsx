@@ -311,18 +311,6 @@ export default function IntroAnimation() {
               ])}
             </Fragment>
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={
-              introPhase === "circle" && morphValue < 0.5
-                ? { opacity: 0.5 - morphValue }
-                : { opacity: 0 }
-            }
-            transition={{ duration: 1, delay: 0.2 }}
-            className="mt-4 max-w-[160px] font-body text-xs font-medium uppercase tracking-[0.15em] text-muted md:max-w-none md:tracking-[0.25em]"
-          >
-            Geser untuk menjelajah
-          </motion.p>
         </div>
 
         {/* Arc Active Content (Fades in) */}
