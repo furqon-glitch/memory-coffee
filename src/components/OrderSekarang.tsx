@@ -223,7 +223,10 @@ export default function OrderSekarang() {
             {/* Category tabs — sticky sub-header, only on the menu step */}
             {currentStep === "menu" && (
               <div className="border-b border-cream/10 px-6 pb-3 pt-4 sm:px-8">
-                <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1">
+                <div
+                  data-lenis-prevent
+                  className="scrollbar-hide -mx-1 flex flex-nowrap gap-1.5 overflow-x-auto overscroll-x-contain px-1 touch-pan-x [-webkit-overflow-scrolling:touch]"
+                >
                   {MENU_CATEGORIES.map((category) => (
                     <button
                       key={category}
