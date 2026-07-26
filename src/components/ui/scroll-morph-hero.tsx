@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, Fragment } from "react";
 import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { renderMixedSegments } from "./MixedHeading";
 
@@ -282,7 +282,7 @@ export default function IntroAnimation() {
     >
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
         {/* Intro Text (Fades out) */}
-        <div className="absolute z-20 flex max-w-[280px] flex-col items-center justify-center px-4 text-center pointer-events-none top-1/2 -translate-y-1/2 md:z-0 md:max-w-none md:px-0">
+        <div className="absolute z-20 flex max-w-[240px] flex-col items-center justify-center px-4 text-center pointer-events-none top-1/2 -translate-y-1/2 md:z-0 md:max-w-none md:px-0">
           <motion.h1
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={
@@ -291,14 +291,25 @@ export default function IntroAnimation() {
                 : { opacity: 0, filter: "blur(10px)" }
             }
             transition={{ duration: 1 }}
-            className="font-display font-extrabold uppercase tracking-[0.02em] leading-[1.05] text-2xl text-cream md:text-5xl"
+            className="font-display font-extrabold uppercase tracking-[0.02em] leading-[1.2] text-xl text-cream md:text-5xl md:leading-[1.05]"
           >
-            {renderMixedSegments([
-              { text: "SETIAP", variant: "sans" },
-              { text: "momen", variant: "script" },
-              { text: "JADI", variant: "sans" },
-              { text: "kenangan", variant: "script" },
-            ])}
+            {/* Forced 2-line break on mobile so each line is short enough to
+                never crop against the photo circle; the literal space keeps
+                desktop's single-line text identical once md:hidden removes
+                the <br>. */}
+            <Fragment key="hero-line-1">
+              {renderMixedSegments([
+                { text: "SETIAP", variant: "sans" },
+                { text: "momen", variant: "script" },
+              ])}
+            </Fragment>{" "}
+            <br className="md:hidden" />
+            <Fragment key="hero-line-2">
+              {renderMixedSegments([
+                { text: "JADI", variant: "sans" },
+                { text: "kenangan", variant: "script" },
+              ])}
+            </Fragment>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
