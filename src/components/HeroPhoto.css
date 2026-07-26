@@ -1,0 +1,246 @@
+/* Ported directly from reference.html — values kept verbatim, selectors scoped under .mc-hero */
+
+.mc-hero {
+  --bg: #0e0e0e;
+  --text: #efebe2;
+  --muted: #b6b2a8;
+  --amber: #e6a94e;
+  --display: "Anton", "Arial Black", Impact, sans-serif;
+  --script: "Playfair Display", Georgia, serif;
+  --body: "Inter", system-ui, sans-serif;
+}
+
+.mc-hero.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+}
+
+.mc-hero .ph {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 56%;
+  will-change: transform;
+}
+
+.mc-hero .bg {
+  z-index: 0;
+  filter: brightness(0.8) contrast(1.04);
+}
+
+.mc-hero .tint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(66% 40% at 50% 46%, rgba(5, 5, 5, 0.72), transparent 68%),
+    linear-gradient(
+      180deg,
+      rgba(8, 8, 8, 0.5) 0%,
+      rgba(8, 8, 8, 0.18) 38%,
+      rgba(8, 8, 8, 0.2) 72%,
+      rgba(8, 8, 8, 0.55) 100%
+    );
+}
+
+.mc-hero .head {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.mc-hero .memory {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translateX(-50%);
+  font-family: var(--display);
+  font-size: clamp(4rem, 16.5vw, 13.5rem);
+  line-height: 0.82;
+  letter-spacing: 0.01em;
+  color: #f3ecdc;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.mc-hero .fg {
+  z-index: 3;
+}
+
+.mc-hero .script {
+  position: absolute;
+  left: 7%;
+  top: 60%;
+  z-index: 5;
+  font-family: var(--script);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 7vw, 6rem);
+  color: var(--amber);
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+.mc-hero .vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: radial-gradient(140% 108% at 50% 40%, transparent 42%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.mc-hero .grain {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+}
+
+.mc-hero .ui {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+}
+
+.mc-hero .eyebrow-l {
+  position: absolute;
+  left: 2rem;
+  top: 24%;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.mc-hero .tags {
+  position: absolute;
+  right: 2rem;
+  top: 24%;
+  text-align: right;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+.mc-hero .card {
+  position: absolute;
+  left: 2rem;
+  bottom: 2.4rem;
+  max-width: 320px;
+  padding: 1.1rem 1.3rem;
+  border-radius: 14px;
+  background: rgba(16, 15, 14, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: #d9d5cb;
+}
+
+.mc-hero .card b {
+  color: #efebe2;
+}
+
+.mc-hero .copy {
+  position: absolute;
+  right: 2rem;
+  bottom: 2.6rem;
+  max-width: 320px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #cfcabf;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6);
+}
+
+.mc-hero .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* .memory keeps its horizontal centering transform through the reveal —
+   without this override, .reveal's translateY would win the cascade and
+   the rise animation's "transform: none" endpoint would drop translateX(-50%). */
+.mc-hero .memory.reveal {
+  transform: translateX(-50%) translateY(20px);
+}
+
+.mc-hero.go .reveal {
+  animation: mc-hero-rise 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.mc-hero.go .memory.reveal {
+  animation-name: mc-hero-rise-memory;
+}
+
+.mc-hero.go .d1 {
+  animation-delay: 0.1s;
+}
+.mc-hero.go .d2 {
+  animation-delay: 0.28s;
+}
+.mc-hero.go .d3 {
+  animation-delay: 0.44s;
+}
+
+@keyframes mc-hero-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mc-hero-rise-memory {
+  to {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 720px) {
+  .mc-hero .copy {
+    display: none;
+  }
+  .mc-hero .tags {
+    display: none;
+  }
+  .mc-hero .eyebrow-l {
+    left: 1.25rem;
+    top: 6.5rem;
+  }
+  .mc-hero .card {
+    left: 1.25rem;
+    right: 1.25rem;
+    max-width: none;
+    bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px), (max-height: 700px) {
+  .mc-hero .memory {
+    top: 48%;
+  }
+  .mc-hero .script {
+    top: 66%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-hero .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .mc-hero .memory.reveal {
+    transform: translateX(-50%);
+  }
+}
