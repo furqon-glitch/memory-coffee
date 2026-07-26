@@ -12,18 +12,19 @@ const WA_LINK = "https://wa.me/6285925843239";
 const GLASS =
   "border border-white/[0.12] bg-black/30 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.35)]";
 
-const BEAN = (
-  <span
-    aria-hidden="true"
-    className="relative inline-block h-[16px] w-[16px] shrink-0 rotate-[-18deg] rounded-[50%_50%_50%_50%/60%_60%_40%_40%] bg-amber after:absolute after:inset-[2px_6px] after:rotate-[18deg] after:rounded-full after:border-l-2 after:border-ink after:content-[''] sm:h-[18px] sm:w-[18px]"
-  />
-);
-
 export default function Header() {
   const logoRef = useRef<HTMLAnchorElement>(null);
   const navWrapRef = useRef<HTMLDivElement>(null);
   const reservasiRef = useRef<HTMLAnchorElement>(null);
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const els = [logoRef.current, navWrapRef.current, reservasiRef.current];
@@ -53,26 +54,32 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed inset-x-4 top-6 z-[100] sm:inset-x-8">
-      <div className="mx-auto grid max-w-5xl grid-cols-3 items-center gap-2 sm:gap-4">
-        {/* Left — logo pill */}
+    <header
+      className={`fixed left-0 right-0 top-0 z-[100] w-full transition-all duration-300 motion-reduce:transition-none ${
+        scrolled
+          ? "border-b border-white/[0.08] bg-black/60 backdrop-blur-lg"
+          : "bg-transparent"
+      }`}
+    >
+      <div
+        className={`mx-auto grid max-w-5xl grid-cols-3 items-center gap-2 px-4 transition-all duration-300 motion-reduce:transition-none sm:gap-4 sm:px-8 ${
+          scrolled ? "py-3" : "py-5"
+        }`}
+      >
+        {/* Left — logo */}
         <div className="flex justify-start">
-          <a
-            ref={logoRef}
-            href="#hero"
-            className={`flex items-center gap-2 rounded-full px-3 py-2 font-display text-[10px] font-extrabold uppercase tracking-wide text-cream sm:gap-2.5 sm:px-5 sm:py-2.5 sm:text-sm ${GLASS}`}
-          >
-            {BEAN}
-            <span className="hidden sm:inline">Memory Coffee</span>
-            <span className="sm:hidden">Memory</span>
+          <a ref={logoRef} href="#hero" className="flex items-center">
+            <img
+              src="/logo-memory-cafe.png"
+              alt="Memory Coffee"
+              className="h-7 w-auto sm:h-9"
+            />
           </a>
         </div>
 
-        {/* Center — nav pill (desktop) / hamburger pill (mobile) */}
+        {/* Center — nav (desktop) / hamburger (mobile) */}
         <div ref={navWrapRef} className="relative flex justify-center">
-          <nav
-            className={`hidden items-center gap-8 rounded-full px-7 py-2.5 font-body text-xs uppercase tracking-[0.15em] text-cream/70 md:flex ${GLASS}`}
-          >
+          <nav className="hidden items-center gap-8 font-body text-xs uppercase tracking-[0.15em] text-cream/70 md:flex">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
@@ -89,7 +96,7 @@ export default function Header() {
             aria-label={open ? "Tutup menu" : "Buka menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className={`flex h-9 w-9 items-center justify-center rounded-full text-cream md:hidden ${GLASS}`}
+            className="flex h-9 w-9 items-center justify-center text-cream md:hidden"
           >
             {open ? (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
