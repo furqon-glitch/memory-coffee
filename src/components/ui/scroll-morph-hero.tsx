@@ -282,7 +282,7 @@ export default function IntroAnimation() {
     >
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
         {/* Intro Text (Fades out) */}
-        <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2">
+        <div className="absolute z-20 flex max-w-[280px] flex-col items-center justify-center px-4 text-center pointer-events-none top-1/2 -translate-y-1/2 md:z-0 md:max-w-none md:px-0">
           <motion.h1
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
             animate={
@@ -291,7 +291,7 @@ export default function IntroAnimation() {
                 : { opacity: 0, filter: "blur(10px)" }
             }
             transition={{ duration: 1 }}
-            className="font-display font-extrabold uppercase tracking-[0.02em] leading-[1.05] text-3xl text-cream md:text-5xl"
+            className="font-display font-extrabold uppercase tracking-[0.02em] leading-[1.05] text-2xl text-cream md:text-5xl"
           >
             {renderMixedSegments([
               { text: "SETIAP", variant: "sans" },
@@ -308,7 +308,7 @@ export default function IntroAnimation() {
                 : { opacity: 0 }
             }
             transition={{ duration: 1, delay: 0.2 }}
-            className="mt-4 font-body text-xs font-medium uppercase tracking-[0.25em] text-muted"
+            className="mt-4 max-w-[160px] font-body text-xs font-medium uppercase tracking-[0.15em] text-muted md:max-w-none md:tracking-[0.25em]"
           >
             Geser untuk menjelajah
           </motion.p>
@@ -345,7 +345,13 @@ export default function IntroAnimation() {
               const minDimension = Math.min(containerSize.width, containerSize.height);
 
               // A. Calculate Circle Position
-              const circleRadius = Math.min(minDimension * 0.35, 350);
+              // Mobile gets its own (smaller) radius + base card scale so the
+              // ring of photos and the centered heading both fit within a
+              // narrow viewport — desktop keeps the original numbers.
+              const circleRadius = isMobile
+                ? Math.min(minDimension * 0.28, 130)
+                : Math.min(minDimension * 0.35, 350);
+              const circleBaseScale = isMobile ? 0.65 : 1;
               const circleAngle = (i / TOTAL_IMAGES) * 360;
               const circleRad = (circleAngle * Math.PI) / 180;
               const circlePos = {
@@ -383,7 +389,7 @@ export default function IntroAnimation() {
                 x: lerp(circlePos.x, arcPos.x, morphValue),
                 y: lerp(circlePos.y, arcPos.y, morphValue),
                 rotation: lerp(circlePos.rotation, arcPos.rotation, morphValue),
-                scale: lerp(1, arcPos.scale, morphValue),
+                scale: lerp(circleBaseScale, arcPos.scale, morphValue),
                 opacity: 1,
               };
             }
