@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { to: "/#lokasi", label: "Lokasi" },
 ];
 
-const WA_LINK = "https://wa.me/6285925843239";
+const WA_LINK = "https://wa.me/62887433362919";
 
 const GLASS =
   "border border-white/[0.12] bg-black/30 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.35)]";

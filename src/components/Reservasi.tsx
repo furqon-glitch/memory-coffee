@@ -2,7 +2,7 @@ import { useScrollReveal } from "../lib/useScrollReveal";
 import MixedHeading from "./ui/MixedHeading";
 
 const WA_LINK =
-  "https://wa.me/6285925843239?text=" +
+  "https://wa.me/62887433362919?text=" +
   encodeURIComponent("Halo Memory Coffee, saya mau reservasi tempat.");
 
 export default function Reservasi() {
@@ -50,7 +50,7 @@ export default function Reservasi() {
           Chat via WhatsApp
         </a>
 
-        <p className="mt-4 font-body text-sm text-cream/45">0859-2584-3239</p>
+        <p className="mt-4 font-body text-sm text-cream/45">0887-4333-62919</p>
       </div>
     </section>
   );
