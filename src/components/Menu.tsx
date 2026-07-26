@@ -1,76 +1,64 @@
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useScrollReveal } from "../lib/useScrollReveal";
 import MixedHeading from "./ui/MixedHeading";
+import MenuItemCard from "./menu/MenuItemCard";
+import { MENU, MENU_CATEGORIES, type MenuCategory } from "../data/menu";
 
-type MenuItem = {
-  name: string;
-  tag: string;
-  note: string;
-};
-
-const mainstays: MenuItem[] = [
-  {
-    name: "Pinecano",
-    tag: "Signature",
-    note: "Espresso ganda dengan sentuhan pine syrup — pahit, manis, dan sedikit resin yang nyeleneh.",
-  },
-  {
-    name: "Memory on the Rock",
-    tag: "Signature",
-    note: "Signature dingin kami — espresso dituang perlahan di atas es, dibiarkan mengendap rasanya.",
-  },
-  {
-    name: "Black Cold Brew",
-    tag: "Cold Brew",
-    note: "Diseduh dingin 16 jam, lembut tanpa asam berlebih. Kopi murni untuk yang suka rasa jujur.",
-  },
-  {
-    name: "White Cold Brew",
-    tag: "Cold Brew",
-    note: "Cold brew yang sama, dipadukan house milk — creamy tapi karakter kopinya tetap terasa.",
-  },
-];
-
-const midYear: MenuItem[] = [
-  {
-    name: "Butterscotch Sea Salt Latte",
-    tag: "Mid-Year Sips",
-    note: "Manis karamel butterscotch ditutup taburan garam laut — kombinasi yang bikin nagih.",
-  },
-  {
-    name: "White Peach Oolong Tea",
-    tag: "Mid-Year Sips",
-    note: "Teh oolong ringan dengan aroma peach segar. Pilihan buat yang butuh jeda dari kafein berat.",
-  },
-];
-
-function Card({ item, index }: { item: MenuItem; index: number }) {
+function ArrowLeftIcon() {
   return (
-    <div
-      data-reveal
-      className="group relative overflow-hidden rounded-2xl border border-cream/10 bg-cream/[0.03] p-6 transition-colors duration-300 hover:border-amber/40 sm:p-7"
-    >
-      <span className="pointer-events-none absolute -right-2 -top-4 font-display font-extrabold text-7xl text-cream/[0.04] sm:text-8xl">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-      <span className="relative mb-4 inline-block rounded-full border border-amber/30 px-3 py-1 font-body text-[10px] uppercase tracking-[0.2em] text-amber">
-        {item.tag}
-      </span>
-      <h3 className="relative font-display font-extrabold text-2xl uppercase tracking-[0.02em] leading-[1.05] text-cream sm:text-3xl">
-        {item.name}
-      </h3>
-      <p className="relative mt-3 max-w-sm font-body text-sm leading-relaxed text-cream/65">
-        {item.note}
-      </p>
-    </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M19 12H5M11 6l-6 6 6 6"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
-export default function Menu() {
+export default function Menu({ showBackLink = false }: { showBackLink?: boolean }) {
   const ref = useScrollReveal<HTMLElement>();
+  const navigate = useNavigate();
+  const [activeCategory, setActiveCategory] = useState<MenuCategory>(
+    MENU_CATEGORIES[0]
+  );
+
+  function handleBack() {
+    // Step back through history when we got here from within the app, so
+    // ScrollManager can restore the home page to where the user left it.
+    // Otherwise (direct link/refresh on /menu) there's nothing to restore,
+    // so just go to "/" fresh.
+    const historyState = window.history.state as { idx?: number } | null;
+    if (typeof historyState?.idx === "number" && historyState.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
+  }
+
+  const items = useMemo(
+    () => MENU.filter((item) => item.category === activeCategory),
+    [activeCategory]
+  );
 
   return (
     <section id="menu" ref={ref} className="relative bg-ink px-6 py-24 sm:px-10 sm:py-32">
       <div className="mx-auto max-w-6xl">
+        {showBackLink && (
+          <button
+            type="button"
+            data-reveal
+            onClick={handleBack}
+            className="mb-8 inline-flex items-center gap-2 font-body text-xs font-semibold uppercase tracking-[0.15em] text-cream/60 transition-colors hover:text-amber"
+          >
+            <ArrowLeftIcon />
+            Kembali ke Home
+          </button>
+        )}
+
         <div data-reveal className="max-w-4xl">
           <span className="font-body text-xs font-medium uppercase tracking-[0.25em] text-muted">
             Menu Andalan
@@ -87,36 +75,30 @@ export default function Menu() {
           />
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-5 sm:mt-16 sm:grid-cols-2">
-          {mainstays.map((item, i) => (
-            <Card key={item.name} item={item} index={i} />
+        <div
+          data-reveal
+          className="mt-10 flex gap-2 overflow-x-auto pb-2 sm:mt-12 sm:flex-wrap sm:gap-2.5"
+        >
+          {MENU_CATEGORIES.map((category) => (
+            <button
+              key={category}
+              type="button"
+              onClick={() => setActiveCategory(category)}
+              className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 font-body text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
+                activeCategory === category
+                  ? "border-amber bg-amber/10 text-amber"
+                  : "border-cream/10 text-cream/60 hover:border-cream/30 hover:text-cream"
+              }`}
+            >
+              {category}
+            </button>
           ))}
         </div>
 
-        <div
-          data-reveal
-          className="mt-14 rounded-3xl border border-amber/20 bg-gradient-to-br from-amber/[0.07] to-transparent p-6 sm:mt-16 sm:p-10"
-        >
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <h3 className="font-display font-extrabold text-2xl uppercase tracking-[0.02em] leading-[1.05] text-cream sm:text-3xl">
-              Mid-Year Sips
-            </h3>
-            <span className="font-body text-xs font-medium uppercase tracking-[0.25em] text-muted">
-              Edisi musiman
-            </span>
-          </div>
-          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10">
-            {midYear.map((item) => (
-              <div key={item.name} data-reveal>
-                <h4 className="font-display font-extrabold text-xl uppercase tracking-[0.02em] leading-[1.05] text-cream sm:text-2xl">
-                  {item.name}
-                </h4>
-                <p className="mt-2 max-w-sm font-body text-sm leading-relaxed text-cream/65">
-                  {item.note}
-                </p>
-              </div>
-            ))}
-          </div>
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <MenuItemCard key={item.id} item={item} />
+          ))}
         </div>
       </div>
     </section>

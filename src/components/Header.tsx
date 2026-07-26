@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 
 const NAV_LINKS = [
-  { href: "#menu", label: "Menu" },
-  { href: "#cerita", label: "Cerita" },
-  { href: "#lokasi", label: "Lokasi" },
+  { to: "/menu", label: "Menu" },
+  { to: "/#cerita", label: "Cerita" },
+  { to: "/#lokasi", label: "Lokasi" },
 ];
 
 const WA_LINK = "https://wa.me/6285925843239";
@@ -68,26 +69,26 @@ export default function Header() {
       >
         {/* Left — logo */}
         <div className="flex justify-start">
-          <a ref={logoRef} href="#hero" className="flex items-center">
+          <Link ref={logoRef} to="/" className="flex items-center">
             <img
               src="/logo-memory-cafe.png"
               alt="Memory Coffee"
               className="h-7 w-auto sm:h-9"
             />
-          </a>
+          </Link>
         </div>
 
         {/* Center — nav (desktop) / hamburger (mobile) */}
         <div ref={navWrapRef} className="relative flex justify-center">
           <nav className="hidden items-center gap-8 font-body text-xs uppercase tracking-[0.15em] text-cream/70 md:flex">
             {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
+              <Link
+                key={link.to}
+                to={link.to}
                 className="transition-colors hover:text-amber"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -124,14 +125,14 @@ export default function Header() {
               className={`absolute left-1/2 top-full mt-2 flex w-40 -translate-x-1/2 flex-col gap-1 rounded-2xl p-2 font-body text-sm uppercase tracking-[0.1em] text-cream/80 md:hidden ${GLASS}`}
             >
               {NAV_LINKS.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
+                <Link
+                  key={link.to}
+                  to={link.to}
                   onClick={() => setOpen(false)}
                   className="rounded-xl px-3 py-2.5 text-center transition-colors hover:bg-white/5 hover:text-amber"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
             </div>
           )}
