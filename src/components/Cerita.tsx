@@ -7,10 +7,10 @@ export default function Cerita() {
 
   return (
     <section id="cerita" ref={ref} className="relative bg-ink py-24 sm:py-32">
-      {/* Contained split: video and copy share one grid, so the video's left
-          edge and the copy's right edge sit on the same margins. Stacks to
-          video-then-text on mobile. */}
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 sm:px-8 lg:grid-cols-[1.45fr_1fr] lg:gap-12 xl:gap-16">
+      {/* Video-dominant split: the left column takes ~62% so the reel stays the
+          hero of the section, held off the viewport edge by a small section
+          padding rather than a narrow container. Stacks on mobile. */}
+      <div className="mx-auto grid max-w-[1700px] grid-cols-1 items-center gap-10 px-8 lg:grid-cols-[62%_1fr] lg:gap-12 lg:px-12">
         <CeritaVideoReel />
 
         <div>
@@ -22,7 +22,7 @@ export default function Cerita() {
           </span>
           <MixedHeading
             data-reveal
-            className="mt-3 text-3xl sm:text-4xl lg:text-[2.5rem]"
+            className="mt-3 text-3xl sm:text-4xl lg:text-5xl"
             segments={[
               { text: "RUANG BUAT", variant: "sans" },
               { text: "MENYIMPAN", variant: "sans" },
@@ -31,7 +31,7 @@ export default function Cerita() {
           />
           <p
             data-reveal
-            className="mt-5 font-body text-sm leading-relaxed text-cream/70"
+            className="mt-5 font-body text-[15px] leading-relaxed text-cream/70"
           >
             Memory Coffee mulai buka di Lorok Pakjo pada 2023 — dari sudut kecil yang
             perlahan jadi tempat orang-orang balik lagi dan lagi. Di dalam, ruangnya sejuk
@@ -40,7 +40,7 @@ export default function Cerita() {
           </p>
           <p
             data-reveal
-            className="mt-3.5 font-body text-sm leading-relaxed text-cream/70"
+            className="mt-3.5 font-body text-[15px] leading-relaxed text-cream/70"
           >
             Setiap gelas yang kami sajikan adalah undangan untuk pelan-pelan — nikmati
             waktunya, simpan momennya.
