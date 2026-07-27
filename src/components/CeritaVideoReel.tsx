@@ -15,7 +15,7 @@ export default function CeritaVideoReel() {
   return (
     <div
       data-reveal
-      className="relative aspect-video w-full overflow-hidden rounded-3xl border border-cream/10 bg-ink"
+      className="relative aspect-video w-full overflow-hidden rounded-none border-y border-cream/10 bg-ink lg:border-r"
     >
       {VIDEOS.map((src, i) => (
         <video
